@@ -40,17 +40,17 @@ namespace Write
             stream = Stream.Synchronized(stream);
             writer = new StreamWriter(stream);
         }
-        private static StreamWriter writer;
+        private  StreamWriter writer;
         private  void SetNameFile(string file)
         {
             name_file = file;
         }
-        static string name_file;
+         string name_file;
         public  void Add(T value)
         {
             t.Add(value);
         }
-        static Timer timer;
+         Timer timer;
         private bool disposedValue;
         private  void Create()
         {
