@@ -11,28 +11,22 @@ namespace Write
     {
         static void Main(string[] args)
         {
-            using (BaseJsonSave<BaseJson> baseJson = new BaseJsonSave<BaseJson>("save.txt")) 
-            {
-                BaseJson baseJson1 = new BaseJson();
-                baseJson.Add(baseJson1);
-                List<Task> tasks = new List<Task>();
-                for (int b = 0; b < 5; b++)
-                {
-                   var task =  Task.Run(() =>
-                    {
-                        for (int i = 0; i < 5; i++)
-                        {
-                           /// Console.WriteLine("Thread.Sleep(7000)");
-                            Thread.Sleep(7000);
-                            baseJson1.info.Enqueue($"for = {i} Thread = {Thread.CurrentThread.ManagedThreadId}");
-                        }
-                    });
-                    tasks.Add(task);
-                }
-                Task.WaitAll(tasks.ToArray());
-            }
+            BaseJsonSave<BaseJson> baseJson = new BaseJsonSave<BaseJson>("save.txt");
+            BaseJson baseJson1 = new BaseJson();
+            baseJson.Add(baseJson1); //Добавляем в очеридь на обработку
+             BaseJson baseJson2 = new BaseJson();
+            baseJson.Add(baseJson2);
+            BaseJson baseJson3 = new BaseJson();
+            baseJson.Add(baseJson3);
+            baseJson1.info.Enqueue("1");
+            baseJson2.info.Enqueue("2");
+            baseJson3.info.Enqueue("3");
             Console.WriteLine("OK");
             Console.ReadKey();
+            baseJson.Dispose();
+            Console.WriteLine("OK_TWO");
+            Console.ReadKey();
+
         }
     }
 }
