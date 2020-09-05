@@ -66,14 +66,8 @@ namespace Write
         private  void Stop()
         {
             Write();
-            if (timer != null)
-            {
-                timer.Dispose();
-            }
-            if (writer != null)
-            {
-                writer.Dispose();
-            }
+            if (timer != null) timer.Dispose();
+            if (writer != null) writer.Dispose();
             t = null;
         }
         private  void Start()
