@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Write.Test;
+using Joiner;
 
 namespace Write
 {
@@ -11,22 +13,14 @@ namespace Write
     {
         static void Main(string[] args)
         {
-            BaseJsonSave<BaseJson> baseJson = new BaseJsonSave<BaseJson>("save.txt");
-            BaseJson baseJson1 = new BaseJson();
-            baseJson.Add(baseJson1); //Добавляем в очеридь на обработку
-             BaseJson baseJson2 = new BaseJson();
-            baseJson.Add(baseJson2);
-            BaseJson baseJson3 = new BaseJson();
-            baseJson.Add(baseJson3);
-            baseJson1.info.Enqueue("1");
-            baseJson2.info.Enqueue("2");
-            baseJson3.info.Enqueue("3");
-            Console.WriteLine("OK");
-            Console.ReadKey();
-            baseJson.Dispose();
-            Console.WriteLine("OK_TWO");
-            Console.ReadKey();
-
+            using (Join<Save> join = new Join<Save>("log.txt")) //Створюємо екзепляр класа
+            {
+                Save save = new Save();//Створюємо клас маріонетку, яка реалізує інтерфейс IClone
+                join.Add(save);//Підписуємо , екземпляп save на збереження даних
+                save.StartWork();//Запускаємо, тестову нагрузку
+                Console.WriteLine("GOOD");
+                Console.ReadKey();
+            }
         }
     }
 }

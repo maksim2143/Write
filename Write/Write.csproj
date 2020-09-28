@@ -43,15 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Info\BaseJson.cs" />
-    <Compile Include="Info\BaseJsonSave.cs" />
-    <Compile Include="Info\BaseJsonTwo.cs" />
-    <Compile Include="Info\IBaseJson.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\Save.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Joiner\Joiner.csproj">
+      <Project>{7211f157-ea85-436d-8c6b-5d697090d017}</Project>
+      <Name>Joiner</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

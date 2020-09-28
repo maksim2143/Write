@@ -9,67 +9,86 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace Write
+namespace Joiner
 {
-    class BaseJsonSave<T>:IDisposable where T : IBaseJson
+    /// <summary>
+    /// Клас,для створення класів маріонеток.
+    /// </summary>
+    /// <typeparam name="T">Клас який підписується</typeparam>
+    public class Join<T>:IDisposable where T : IClone
     {
-        ~BaseJsonSave()
+        ~Join()
         {
             if (writer != null) writer.Dispose();
         }
         private  BlockingCollection<T> t;
+        /// <summary>
+        /// Метод який записує дані з потоків
+        /// </summary>
         protected  void Write()
         {
-            foreach (var item in t)
+            foreach (var item in t)//Получаємо всі екзепляри класів
             {
                 if (item.info == null) continue;
-                while(item.info.Count > 0)
+                while(item.info.Count > 0)//Перебор елементів
                 {
-                    if (item.info.TryDequeue(out var result))
+                    if (item.info.TryDequeue(out var result))//Пробуємо, витягнути елемент
                     {
-                        Console.WriteLine(result ?? "");
-                        writer.WriteLine(result ?? "");
+                        writer.WriteLine(result ?? "");//Записуємо дані в файл.
                     }
                 }
             }
         }
+        /// <summary>
+        /// Створюємо стрім
+        /// </summary>
+        /// <param name="file"></param>
         protected  void CreateStream(string file)
         {
             if (writer != null) return;
-            Stream stream = File.OpenWrite(file);
-            stream = Stream.Synchronized(stream);
+            Stream stream = File.OpenWrite(file);//Відкриваємо файл
+            stream = Stream.Synchronized(stream);//Робимо стрім , потокобезопасним
             writer = new StreamWriter(stream);
         }
         private  StreamWriter writer;
-        private  void SetNameFile(string file)
+        private  void SetNameFile(string file)//Задаємо назву файла
         {
             name_file = file;
         }
          string name_file;
-        public  void Add(T value)
+        public  void Add(T value)//Підписуємо новий елемент
         {
             t.Add(value);
         }
-         Timer timer;
+        Timer timer;//Таймер який буде виконувати метод, Write
         private bool disposedValue;
-        private  void Create()
+        /// <summary>
+        /// Створємо новий екзепляр, таймера
+        /// </summary>
+        private void Create()
         {
             if (timer != null) return;
             timer = new Timer(x=> Write(),null,10000,10000);
         }
-        public BaseJsonSave(string file)
+        public Join(string file)
         {
-            this.SetNameFile(file);
-            Start();
+            this.SetNameFile(file);//Задаємо , ім'я файла
+            Start();//Стартуємо всьо
             
         }
-        private  void Stop()
+        /// <summary>
+        /// Метод для остановки роботи, всього класу
+        /// </summary>
+        private  void Stop()//Стопаємо всьо
         {
-            Write();
+            Write();//Дозаписуємо дані які лишилися
             if (timer != null) timer.Dispose();
             if (writer != null) writer.Dispose();
             t = null;
         }
+        /// <summary>
+        /// Метод для запуска, роботи всього класу
+        /// </summary>
         private  void Start()
         {
             if (t == null) t = new BlockingCollection<T>();

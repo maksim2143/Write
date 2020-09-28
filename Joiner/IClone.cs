@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Write
+namespace Joiner
 {
-    interface IBaseJson
+    public interface IClone
     {
         ConcurrentQueue<string> info { set; get; }
     }
