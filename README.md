@@ -1,7 +1,10 @@
 Библиотека для записи данных, в удобном(потокобезопасному) виде
+
 Пример:
+
             using (Join<Save> join = new Join<Save>("log.txt"))
             {
+	    
                 Save save = new Save();
                 join.Add(save);
                 save.StartWork();
