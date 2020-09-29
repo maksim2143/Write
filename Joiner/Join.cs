@@ -21,6 +21,10 @@ namespace Joiner
         {
             if (writer != null) writer.Dispose();
         }
+        public Join()
+        {
+            t = new BlockingCollection<T>();
+        }
         private  BlockingCollection<T> t;
         /// <summary>
         /// Метод який записує дані з потоків
